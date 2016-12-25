@@ -20,6 +20,16 @@ router.get('/',function (req,res,next){
   res.redirect('poems');
 });
 
+
+// 登录页面
+router.get('/login',function (req,res,nest){
+	var renderData = {
+		title:'微诗WePoem管理后台',
+		desc:'管理员登录'
+	}
+	res.render('login/login',renderData);
+})
+
 // 诗列表、详情
 router.get('/poems',function (req,res,next){
 

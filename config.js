@@ -15,7 +15,7 @@ var localhost = {
         port: 6379,
         pwd: '12345',
         db: 6,
-        prefix: 'session_wepoem:'
+        prefix: 'session_wepoem_admin:'
     }
 };
 var dev = {
@@ -32,7 +32,7 @@ var dev = {
         port: 6379,
         pwd: '12345',
         db: 6,
-        prefix: 'session_wepoem:'
+        prefix: 'session_wepoem_admin:'
     }
 
 };
@@ -50,7 +50,7 @@ var produ = {
         port: 6379,
         pwd: '12345',
         db: 6,
-        prefix: 'session_wepoem:'
+        prefix: 'session_wepoem_admin:'
     }
 
 };
