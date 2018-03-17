@@ -3,10 +3,6 @@
     <div class="filter-container">
       <el-input @keyup.enter.native="handleFilter" style="width: 200px;" class="filter-item" :placeholder="$t('table.title')" v-model="listQuery.title">
       </el-input>
-      <el-select clearable style="width: 90px" class="filter-item" v-model="listQuery.importance" :placeholder="$t('table.importance')">
-        <el-option v-for="item in importanceOptions" :key="item" :label="item" :value="item">
-        </el-option>
-      </el-select>
       <el-select clearable class="filter-item" style="width: 130px" v-model="listQuery.type" :placeholder="$t('table.type')">
         <el-option v-for="item in  calendarTypeOptions" :key="item.key" :label="item.display_name+'('+item.key+')'" :value="item.key">
         </el-option>
@@ -28,20 +24,20 @@
           <span>{{scope.row.id}}</span>
         </template>
       </el-table-column>
-      <el-table-column width="150px" align="center" :label="$t('table.date')">
-        <template slot-scope="scope">
-          <!-- <span>{{scope.row.timestamp | parseTime('{y}-{m}-{d} {h}:{i}')}}</span> -->
-        </template>
-      </el-table-column>
       <el-table-column min-width="150px" :label="$t('table.title')">
         <template slot-scope="scope">
           <span class="link-type" @click="handleUpdate(scope.row)">{{scope.row.title}}</span>
           <!-- <el-tag>{{scope.row.type | typeFilter}}</el-tag> -->
         </template>
       </el-table-column>
-      <el-table-column width="110px" align="center" :label="$t('table.author')">
+      <el-table-column width="" align="center" :label="$t('table.author')">
         <template slot-scope="scope">
-          <span>{{scope.row.author}}</span>
+          <span>{{scope.row.authorName}}</span>
+        </template>
+      </el-table-column>
+      <el-table-column width="110px" align="center" :label="$t('table.collection')">
+        <template slot-scope="scope">
+          <span>{{scope.row.collection}}</span>
         </template>
       </el-table-column>
       <el-table-column width="110px" v-if='showReviewer' align="center" :label="$t('table.reviewer')">
@@ -54,32 +50,37 @@
           <!-- <svg-icon v-for="n in +scope.row.importance" icon-class="star" class="meta-item__icon" :key="n"></svg-icon> -->
         </template>
       </el-table-column>
-      <el-table-column align="center" :label="$t('table.readings')" width="95">
+      <el-table-column align="center" :label="$t('table.comments_num')" width="">
         <template slot-scope="scope">
-          <span v-if="scope.row.pageviews" class="link-type" @click='handleFetchPv(scope.row.pageviews)'>{{scope.row.pageviews}}</span>
-          <span v-else>0</span>
+          <span>{{scope.row.comments_num}}</span>
         </template>
       </el-table-column>
       <el-table-column class-name="status-col" :label="$t('table.status')" width="100">
         <template slot-scope="scope">
-          <el-tag :type="scope.row.status | statusFilter">{{scope.row.status}}</el-tag>
+          <span>{{statusName[scope.row.status||0]}}</span>
         </template>
       </el-table-column>
-      <el-table-column align="center" :label="$t('table.actions')" width="230" class-name="small-padding fixed-width">
+      <el-table-column width="200px" align="center" :label="$t('table.date')">
+        <template slot-scope="scope">
+          <span>创建：{{scope.row.created_at | parseTime('{y}-{m}-{d} {h}:{i}:{s}')}}</span><br>
+          <span>更新：{{scope.row.created_at | parseTime('{y}-{m}-{d} {h}:{i}:{s}')}}</span>
+        </template>
+      </el-table-column>
+      <el-table-column align="center" :label="$t('table.actions')" width="" class-name="small-padding fixed-width">
         <template slot-scope="scope">
           <el-button type="primary" size="mini" @click="handleUpdate(scope.row)">{{$t('table.edit')}}</el-button>
-          <el-button v-if="scope.row.status!='published'" size="mini" type="success" @click="handleModifyStatus(scope.row,'published')">{{$t('table.publish')}}
-          </el-button>
-          <el-button v-if="scope.row.status!='draft'" size="mini" @click="handleModifyStatus(scope.row,'draft')">{{$t('table.draft')}}
-          </el-button>
-          <el-button v-if="scope.row.status!='deleted'" size="mini" type="danger" @click="handleModifyStatus(scope.row,'deleted')">{{$t('table.delete')}}
-          </el-button>
+          <!-- <el-button v-if="scope.row.status!='published'" size="mini" type="success" @click="handleModifyStatus(scope.row,'published')">{{$t('table.publish')}}
+          </el-button> -->
+          <!-- <el-button v-if="scope.row.status!='draft'" size="mini" @click="handleModifyStatus(scope.row,'draft')">{{$t('table.draft')}}
+          </el-button> -->
+          <!-- <el-button v-if="scope.row.status!='deleted'" size="mini" type="danger" @click="handleModifyStatus(scope.row,'deleted')">{{$t('table.delete')}}
+          </el-button> -->
         </template>
       </el-table-column>
     </el-table>
 
     <div class="pagination-container">
-      <el-pagination background @size-change="handleSizeChange" @current-change="handleCurrentChange" :current-page="listQuery.page" :page-sizes="[10,20,30,50]" :page-size="listQuery.size" layout="total, sizes, prev, pager, next, jumper" :total="total">
+      <el-pagination background @size-change="handleSizeChange" @current-change="handleCurrentChange" :current-page="listQuery.page" :page-sizes="[10,50]" :page-size="listQuery.size" layout="total, sizes, prev, pager, next, jumper" :total="total">
       </el-pagination>
     </div>
 
@@ -100,7 +101,7 @@
         </el-form-item>
         <el-form-item :label="$t('table.status')">
           <el-select class="filter-item" v-model="temp.status" placeholder="Please select">
-            <el-option v-for="item in  statusOptions" :key="item" :label="item" :value="item">
+            <el-option v-for="item in statusName" :key="item" :label="item" :value="item">
             </el-option>
           </el-select>
         </el-form-item>
@@ -163,13 +164,13 @@ export default {
       listLoading: true,
       listQuery: {
         page: 1,
-        size: 20,
+        size: 10,
         title: undefined
       },
       importanceOptions: [1, 2, 3],
       calendarTypeOptions,
       sortOptions: [{ label: 'ID Ascending', key: '+id' }, { label: 'ID Descending', key: '-id' }],
-      statusOptions: ['published', 'draft', 'deleted'],
+      statusName: ['未发布', '已发布', '已推荐'],
       showReviewer: false,
       temp: {
         id: undefined,
@@ -197,14 +198,7 @@ export default {
     }
   },
   filters: {
-    statusFilter(status) {
-      const statusMap = {
-        published: 'success',
-        draft: 'info',
-        deleted: 'danger'
-      }
-      return statusMap[status]
-    },
+    statusFilter(status) {},
     typeFilter(type) {
       return calendarTypeKeyValue[type]
     }
