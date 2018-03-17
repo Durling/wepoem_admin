@@ -59,7 +59,7 @@ export default {
     theme: '换肤'
   },
   login: {
-    title: '微诗 · 管理后台登录',
+    title: '微诗印象 · 管理后台',
     logIn: '登录',
     username: '账号',
     password: '密码',
