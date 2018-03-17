@@ -46,7 +46,10 @@ export default {
     exportZip: 'Export Zip',
     theme: '换肤',
     clipboardDemo: 'Clipboard',
-    i18n: '国际化'
+    i18n: '国际化',
+    poemsManagement: '诗管理',
+    poemsList: '诗列表',
+    poemsList1: '诗列表1'
   },
   navbar: {
     logOut: '退出登录',
@@ -56,7 +59,7 @@ export default {
     theme: '换肤'
   },
   login: {
-    title: '系统登录',
+    title: '微诗 · 管理后台登录',
     logIn: '登录',
     username: '账号',
     password: '密码',
