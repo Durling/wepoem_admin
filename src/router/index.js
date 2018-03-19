@@ -117,17 +117,32 @@ export const asyncRouterMap = [
   // },
 
   {
-    path: '/poemsManagement',
+    path: '/poemManagement',
     component: Layout,
     redirect: 'noredirect',
-    name: 'poemsManagement',
+    name: 'poemManagement',
     meta: {
-      title: 'poemsManagement',
+      title: 'poemManagement',
       icon: 'component'
     },
     children: [
-      { path: 'poemsList', component: _import('adminPages/poemsManagement/poemsList'), name: 'poemsList', meta: { title: 'poemsList' }},
-      { path: 'poemsList1', component: _import('adminPages/poemsManagement/poemsList1'), name: 'poemsList1', meta: { title: 'poemsList1' }}
+      { path: 'poemList', component: _import('adminPages/poemManagement/poemList'), name: 'poemList', meta: { title: 'poemList' }},
+      { path: 'poemList1', component: _import('adminPages/poemManagement/poemList1'), name: 'poemList1', meta: { title: 'poemList1' }}
+    ]
+  },
+
+  {
+    path: '/userManagement',
+    component: Layout,
+    redirect: 'noredirect',
+    name: 'userManagement',
+    meta: {
+      title: 'userManagement',
+      icon: 'component'
+    },
+    children: [
+      { path: 'userList', component: _import('adminPages/userManagement/userList'), name: 'userList', meta: { title: 'userList' }},
+      { path: 'userList1', component: _import('adminPages/userManagement/userList1'), name: 'userList1', meta: { title: 'userList1' }}
     ]
   },
 

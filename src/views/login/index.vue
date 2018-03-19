@@ -2,6 +2,7 @@
   <div class="login-container">
     <el-form class="login-form" autoComplete="on" :model="loginForm" :rules="loginRules" ref="loginForm" label-position="left">
       <div class="title-container">
+        <!-- <img src="http://cdn.wepoem.com/img/avatar/wepoen_logo.png?imageView2/1/w/80/h/80" alt=""> -->
         <h3 class="title">{{$t('login.title')}}</h3>
         <!-- <lang-select class="set-language"></lang-select> -->
       </div>

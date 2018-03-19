@@ -47,9 +47,12 @@ export default {
     theme: '换肤',
     clipboardDemo: 'Clipboard',
     i18n: '国际化',
-    poemsManagement: '诗管理',
-    poemsList: '诗列表',
-    poemsList1: '诗列表1'
+    poemManagement: '诗管理',
+    poemList: '诗列表',
+    poemList1: '诗列表1',
+    userManagement: '用户管理',
+    userList: '用户列表',
+    userList1: '用户列表1'
   },
   navbar: {
     logOut: '退出登录',
@@ -98,6 +101,7 @@ export default {
     export: '导出',
     reviewer: '审核人',
     id: '序号',
+    ID: 'ID',
     date: '时间',
     author: '作者',
     readings: '阅读数',
@@ -110,7 +114,15 @@ export default {
     cancel: '取 消',
     confirm: '确 定',
     collection: '采集',
-    comments_num: '评论数'
+    comments_num: '评论数',
+    in_unique_code: '印象号',
+    userName: '用户名',
+    email: '邮箱',
+    phone: '手机号',
+    sex: '性别',
+    signature: '个性签名',
+    city: '城市',
+    avatar: '头像'
   },
   errorLog: {
     tips: '请点击右上角bug小图标',

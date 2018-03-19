@@ -3,6 +3,10 @@
     <div class="filter-container">
       <el-input @keyup.enter.native="handleFilter" style="width: 200px;" class="filter-item" :placeholder="$t('table.title')" v-model="listQuery.title">
       </el-input>
+      <el-select clearable style="width: 90px" class="filter-item" v-model="listQuery.importance" :placeholder="$t('table.importance')">
+        <el-option v-for="item in importanceOptions" :key="item" :label="item" :value="item">
+        </el-option>
+      </el-select>
       <el-select clearable class="filter-item" style="width: 130px" v-model="listQuery.type" :placeholder="$t('table.type')">
         <el-option v-for="item in  calendarTypeOptions" :key="item.key" :label="item.display_name+'('+item.key+')'" :value="item.key">
         </el-option>
@@ -24,20 +28,20 @@
           <span>{{scope.row.id}}</span>
         </template>
       </el-table-column>
+      <el-table-column width="150px" align="center" :label="$t('table.date')">
+        <template slot-scope="scope">
+          <span>{{scope.row.timestamp | parseTime('{y}-{m}-{d} {h}:{i}')}}</span>
+        </template>
+      </el-table-column>
       <el-table-column min-width="150px" :label="$t('table.title')">
         <template slot-scope="scope">
           <span class="link-type" @click="handleUpdate(scope.row)">{{scope.row.title}}</span>
-          <!-- <el-tag>{{scope.row.type | typeFilter}}</el-tag> -->
+          <el-tag>{{scope.row.type | typeFilter}}</el-tag>
         </template>
       </el-table-column>
-      <el-table-column width="" align="center" :label="$t('table.author')">
+      <el-table-column width="110px" align="center" :label="$t('table.author')">
         <template slot-scope="scope">
-          <span>{{scope.row.authorName}}</span>
-        </template>
-      </el-table-column>
-      <el-table-column width="110px" align="center" :label="$t('table.collection')">
-        <template slot-scope="scope">
-          <span>{{scope.row.collection}}</span>
+          <span>{{scope.row.author}}</span>
         </template>
       </el-table-column>
       <el-table-column width="110px" v-if='showReviewer' align="center" :label="$t('table.reviewer')">
@@ -47,40 +51,35 @@
       </el-table-column>
       <el-table-column width="80px" :label="$t('table.importance')">
         <template slot-scope="scope">
-          <!-- <svg-icon v-for="n in +scope.row.importance" icon-class="star" class="meta-item__icon" :key="n"></svg-icon> -->
+          <svg-icon v-for="n in +scope.row.importance" icon-class="star" class="meta-item__icon" :key="n"></svg-icon>
         </template>
       </el-table-column>
-      <el-table-column align="center" :label="$t('table.comments_num')" width="">
+      <el-table-column align="center" :label="$t('table.readings')" width="95">
         <template slot-scope="scope">
-          <span>{{scope.row.comments_num}}</span>
+          <span v-if="scope.row.pageviews" class="link-type" @click='handleFetchPv(scope.row.pageviews)'>{{scope.row.pageviews}}</span>
+          <span v-else>0</span>
         </template>
       </el-table-column>
       <el-table-column class-name="status-col" :label="$t('table.status')" width="100">
         <template slot-scope="scope">
-          <span>{{statusName[scope.row.status||0]}}</span>
+          <el-tag :type="scope.row.status | statusFilter">{{scope.row.status}}</el-tag>
         </template>
       </el-table-column>
-      <el-table-column width="200px" align="center" :label="$t('table.date')">
-        <template slot-scope="scope">
-          <span>创建：{{scope.row.created_at | parseTime('{y}-{m}-{d} {h}:{i}:{s}')}}</span><br>
-          <span>更新：{{scope.row.created_at | parseTime('{y}-{m}-{d} {h}:{i}:{s}')}}</span>
-        </template>
-      </el-table-column>
-      <el-table-column align="center" :label="$t('table.actions')" width="" class-name="small-padding fixed-width">
+      <el-table-column align="center" :label="$t('table.actions')" width="230" class-name="small-padding fixed-width">
         <template slot-scope="scope">
           <el-button type="primary" size="mini" @click="handleUpdate(scope.row)">{{$t('table.edit')}}</el-button>
-          <!-- <el-button v-if="scope.row.status!='published'" size="mini" type="success" @click="handleModifyStatus(scope.row,'published')">{{$t('table.publish')}}
-          </el-button> -->
-          <!-- <el-button v-if="scope.row.status!='draft'" size="mini" @click="handleModifyStatus(scope.row,'draft')">{{$t('table.draft')}}
-          </el-button> -->
-          <!-- <el-button v-if="scope.row.status!='deleted'" size="mini" type="danger" @click="handleModifyStatus(scope.row,'deleted')">{{$t('table.delete')}}
-          </el-button> -->
+          <el-button v-if="scope.row.status!='published'" size="mini" type="success" @click="handleModifyStatus(scope.row,'published')">{{$t('table.publish')}}
+          </el-button>
+          <el-button v-if="scope.row.status!='draft'" size="mini" @click="handleModifyStatus(scope.row,'draft')">{{$t('table.draft')}}
+          </el-button>
+          <el-button v-if="scope.row.status!='deleted'" size="mini" type="danger" @click="handleModifyStatus(scope.row,'deleted')">{{$t('table.delete')}}
+          </el-button>
         </template>
       </el-table-column>
     </el-table>
 
     <div class="pagination-container">
-      <el-pagination background @size-change="handleSizeChange" @current-change="handleCurrentChange" :current-page="listQuery.page" :page-sizes="[10,50]" :page-size="listQuery.size" layout="total, sizes, prev, pager, next, jumper" :total="total">
+      <el-pagination background @size-change="handleSizeChange" @current-change="handleCurrentChange" :current-page="listQuery.page" :page-sizes="[10,20,30, 50]" :page-size="listQuery.limit" layout="total, sizes, prev, pager, next, jumper" :total="total">
       </el-pagination>
     </div>
 
@@ -101,7 +100,7 @@
         </el-form-item>
         <el-form-item :label="$t('table.status')">
           <el-select class="filter-item" v-model="temp.status" placeholder="Please select">
-            <el-option v-for="item in statusName" :key="item" :label="item" :value="item">
+            <el-option v-for="item in  statusOptions" :key="item" :label="item" :value="item">
             </el-option>
           </el-select>
         </el-form-item>
@@ -134,7 +133,7 @@
 </template>
 
 <script>
-import { fetchList, fetchPv, createArticle, updateArticle } from '@/api/poemsList'
+import { fetchList, fetchPv, createArticle, updateArticle } from '@/api/article'
 import waves from '@/directive/waves' // 水波纹指令
 import { parseTime } from '@/utils'
 
@@ -164,13 +163,16 @@ export default {
       listLoading: true,
       listQuery: {
         page: 1,
-        size: 10,
-        title: undefined
+        limit: 20,
+        importance: undefined,
+        title: undefined,
+        type: undefined,
+        sort: '+id'
       },
       importanceOptions: [1, 2, 3],
       calendarTypeOptions,
       sortOptions: [{ label: 'ID Ascending', key: '+id' }, { label: 'ID Descending', key: '-id' }],
-      statusName: ['未发布', '已发布', '已推荐'],
+      statusOptions: ['published', 'draft', 'deleted'],
       showReviewer: false,
       temp: {
         id: undefined,
@@ -198,7 +200,14 @@ export default {
     }
   },
   filters: {
-    statusFilter(status) {},
+    statusFilter(status) {
+      const statusMap = {
+        published: 'success',
+        draft: 'info',
+        deleted: 'danger'
+      }
+      return statusMap[status]
+    },
     typeFilter(type) {
       return calendarTypeKeyValue[type]
     }
@@ -209,10 +218,9 @@ export default {
   methods: {
     getList() {
       this.listLoading = true
-      fetchList(this.listQuery).then(res => {
-        console.log(res.data.rows)
-        this.list = res.data.rows
-        this.total = res.data.total
+      fetchList(this.listQuery).then(response => {
+        this.list = response.data.items
+        this.total = response.data.total
         this.listLoading = false
       })
     },
@@ -221,7 +229,7 @@ export default {
       this.getList()
     },
     handleSizeChange(val) {
-      this.listQuery.size = val
+      this.listQuery.limit = val
       this.getList()
     },
     handleCurrentChange(val) {
