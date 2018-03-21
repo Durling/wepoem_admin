@@ -122,7 +122,9 @@ export default {
     sex: '性别',
     signature: '个性签名',
     city: '城市',
-    avatar: '头像'
+    avatar: '头像',
+    content: '内容',
+    publishStatus: '发布状态'
   },
   errorLog: {
     tips: '请点击右上角bug小图标',

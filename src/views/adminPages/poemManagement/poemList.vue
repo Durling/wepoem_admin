@@ -55,7 +55,7 @@
           <span>{{scope.row.comments_num}}</span>
         </template>
       </el-table-column>
-      <el-table-column class-name="status-col" :label="$t('table.status')" width="100">
+      <el-table-column class-name="status-col" :label="$t('table.publishStatus')" width="100">
         <template slot-scope="scope">
           <span>{{statusName[scope.row.status||0]}}</span>
         </template>
@@ -85,33 +85,36 @@
     </div>
 
     <el-dialog :title="textMap[dialogStatus]" :visible.sync="dialogFormVisible">
-      <el-form :rules="rules" ref="dataForm" :model="temp" label-position="left" label-width="70px" style='width: 400px; margin-left:50px;'>
-        <el-form-item :label="$t('table.type')" prop="type">
+      <el-form :rules="rules" ref="dataForm" :model="temp" label-position="left" label-width="70px" style='margin:0 50px;'>
+        <!-- <el-form-item :label="$t('table.type')" prop="type">
           <el-select class="filter-item" v-model="temp.type" placeholder="Please select">
             <el-option v-for="item in  calendarTypeOptions" :key="item.key" :label="item.display_name" :value="item.key">
             </el-option>
           </el-select>
-        </el-form-item>
-        <el-form-item :label="$t('table.date')" prop="timestamp">
+        </el-form-item> -->
+        <!-- <el-form-item :label="$t('table.date')" prop="timestamp">
           <el-date-picker v-model="temp.timestamp" type="datetime" placeholder="Please pick a date">
           </el-date-picker>
-        </el-form-item>
+        </el-form-item> -->
         <el-form-item :label="$t('table.title')" prop="title">
           <el-input v-model="temp.title"></el-input>
         </el-form-item>
-        <el-form-item :label="$t('table.status')">
-          <el-select class="filter-item" v-model="temp.status" placeholder="Please select">
-            <el-option v-for="item in statusName" :key="item" :label="item" :value="item">
+        <el-form-item :label="$t('table.author')" prop="title">
+          <el-input v-model="temp.authorName"></el-input>
+        </el-form-item>
+        <el-form-item :label="$t('table.content')">
+          <el-input type="textarea" :autosize="{ minRows: 2, maxRows: 6}" placeholder="Please input" v-model="temp.content">
+          </el-input>
+        </el-form-item>
+        <el-form-item :label="$t('table.publishStatus')">
+          <el-select class="filter-item" v-model="temp.status||0" placeholder="Please select">
+            <el-option v-for="(item,index) in statusName" :key="item" :label="item" :value="index">
             </el-option>
           </el-select>
         </el-form-item>
-        <el-form-item :label="$t('table.importance')">
+        <!-- <el-form-item :label="$t('table.importance')">
           <el-rate style="margin-top:8px;" v-model="temp.importance" :colors="['#99A9BF', '#F7BA2A', '#FF9900']" :max='3'></el-rate>
-        </el-form-item>
-        <el-form-item :label="$t('table.remark')">
-          <el-input type="textarea" :autosize="{ minRows: 2, maxRows: 4}" placeholder="Please input" v-model="temp.remark">
-          </el-input>
-        </el-form-item>
+        </el-form-item> -->
       </el-form>
       <div slot="footer" class="dialog-footer">
         <el-button @click="dialogFormVisible = false">{{$t('table.cancel')}}</el-button>
@@ -170,7 +173,7 @@ export default {
       importanceOptions: [1, 2, 3],
       calendarTypeOptions,
       sortOptions: [{ label: 'ID Ascending', key: '+id' }, { label: 'ID Descending', key: '-id' }],
-      statusName: ['未发布', '已发布', '已推荐'],
+      statusName: ['未发布', '已发布'],
       showReviewer: false,
       temp: {
         id: undefined,
@@ -184,8 +187,8 @@ export default {
       dialogFormVisible: false,
       dialogStatus: '',
       textMap: {
-        update: 'Edit',
-        create: 'Create'
+        update: '编辑这首诗',
+        create: '添加一首诗'
       },
       dialogPvVisible: false,
       pvData: [],
