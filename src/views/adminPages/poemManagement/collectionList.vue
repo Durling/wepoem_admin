@@ -65,10 +65,14 @@
           <span>{{statusName[scope.row.status||0]}}</span>
         </template>
       </el-table-column>
-      <el-table-column width="" align="center" :label="$t('table.date')">
+      <el-table-column width="160" align="center" :label="'创建'+$t('table.date')">
         <template slot-scope="scope">
-          <span>创建：{{scope.row.created_at}}</span><br>
-          <span>更新：{{scope.row.updated_at}}</span>
+          <span>{{scope.row.created_at||0 | parseTime('{y}-{m}-{d} {h}:{i}:{s}')}}</span>
+        </template>
+      </el-table-column>
+      <el-table-column width="160" align="center" :label="'更新'+$t('table.date')">
+        <template slot-scope="scope">
+          <span>{{scope.row.updated_at||0 | parseTime('{y}-{m}-{d} {h}:{i}:{s}')}}</span>
         </template>
       </el-table-column>
       <el-table-column align="center" :label="$t('table.actions')" width="" class-name="small-padding fixed-width">

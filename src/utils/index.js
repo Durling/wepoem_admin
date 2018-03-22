@@ -3,6 +3,7 @@
  */
 
 export function parseTime(time, cFormat) {
+  time = time || 0
   if (arguments.length === 0) {
     return null
   }
