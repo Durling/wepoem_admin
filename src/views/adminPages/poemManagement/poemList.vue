@@ -24,10 +24,9 @@
           <span>{{scope.row.id}}</span>
         </template>
       </el-table-column>
-      <el-table-column min-width="150px" :label="$t('table.title')">
+      <el-table-column min-width="150px" :label="$t('table.name')">
         <template slot-scope="scope">
-          <span class="link-type" @click="handleUpdate(scope.row)">{{scope.row.title}}</span>
-          <!-- <el-tag>{{scope.row.type | typeFilter}}</el-tag> -->
+          <span>{{scope.row.title}}</span>
         </template>
       </el-table-column>
       <el-table-column width="" align="center" :label="$t('table.author')">
@@ -45,11 +44,11 @@
           <span style='color:red;'>{{scope.row.reviewer}}</span>
         </template>
       </el-table-column>
-      <el-table-column width="80px" :label="$t('table.importance')">
+      <!-- <el-table-column width="80px" :label="$t('table.importance')">
         <template slot-scope="scope">
-          <!-- <svg-icon v-for="n in +scope.row.importance" icon-class="star" class="meta-item__icon" :key="n"></svg-icon> -->
+          <svg-icon v-for="n in +scope.row.importance" icon-class="star" class="meta-item__icon" :key="n"></svg-icon>
         </template>
-      </el-table-column>
+      </el-table-column> -->
       <el-table-column align="center" :label="$t('table.comments_num')" width="">
         <template slot-scope="scope">
           <span>{{scope.row.comments_num}}</span>
@@ -63,7 +62,7 @@
       <el-table-column width="200px" align="center" :label="$t('table.date')">
         <template slot-scope="scope">
           <span>创建：{{scope.row.created_at | parseTime('{y}-{m}-{d} {h}:{i}:{s}')}}</span><br>
-          <span>更新：{{scope.row.created_at | parseTime('{y}-{m}-{d} {h}:{i}:{s}')}}</span>
+          <span>更新：{{scope.row.updated_at | parseTime('{y}-{m}-{d} {h}:{i}:{s}')}}</span>
         </template>
       </el-table-column>
       <el-table-column align="center" :label="$t('table.actions')" width="" class-name="small-padding fixed-width">
@@ -96,7 +95,7 @@
           <el-date-picker v-model="temp.timestamp" type="datetime" placeholder="Please pick a date">
           </el-date-picker>
         </el-form-item> -->
-        <el-form-item :label="$t('table.title')" prop="title">
+        <el-form-item :label="$t('table.name')" prop="title">
           <el-input v-model="temp.title"></el-input>
         </el-form-item>
         <el-form-item :label="$t('table.author')" prop="title">
@@ -137,7 +136,7 @@
 </template>
 
 <script>
-import { fetchList, fetchPv, createArticle, updateArticle } from '@/api/poemList'
+import { fetchPoemList, fetchPv, createArticle, updateArticle } from '@/api/poem'
 import waves from '@/directive/waves' // 水波纹指令
 import { parseTime } from '@/utils'
 
@@ -212,7 +211,7 @@ export default {
   methods: {
     getList() {
       this.listLoading = true
-      fetchList(this.listQuery).then(res => {
+      fetchPoemList(this.listQuery).then(res => {
         console.log(res.data.rows)
         this.list = res.data.rows
         this.total = res.data.total

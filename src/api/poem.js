@@ -1,7 +1,7 @@
 import request from '@/utils/request'
 
-// 获取诗列表
-export function fetchList(query) {
+// 获取诗分页列表
+export function fetchPoemList(query) {
   return request({
     url: '/proxy/api/v1/admin/poemList',
     method: 'get',
@@ -9,10 +9,10 @@ export function fetchList(query) {
   })
 }
 
-// 获取诗作者列表
-export function fetchList1(query) {
+// 获取诗集分页列表
+export function fetchCollectionList(query) {
   return request({
-    url: '/proxy/api/v1/admin/poemList',
+    url: '/proxy/api/v1/admin/collectionList',
     method: 'get',
     params: query
   })

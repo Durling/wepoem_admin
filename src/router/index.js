@@ -127,7 +127,7 @@ export const asyncRouterMap = [
     },
     children: [
       { path: 'poemList', component: _import('adminPages/poemManagement/poemList'), name: 'poemList', meta: { title: 'poemList' }},
-      { path: 'poemList1', component: _import('adminPages/poemManagement/poemList1'), name: 'poemList1', meta: { title: 'poemList1' }}
+      { path: 'collectionList', component: _import('adminPages/poemManagement/collectionList'), name: 'collectionList', meta: { title: 'collectionList' }}
     ]
   },
 

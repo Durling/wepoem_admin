@@ -49,7 +49,7 @@ export default {
     i18n: '国际化',
     poemManagement: '诗管理',
     poemList: '诗列表',
-    poemList1: '诗集列表',
+    collectionList: '诗集列表',
     userManagement: '用户管理',
     userList: '用户列表',
     userList1: '用户列表1'
@@ -124,7 +124,8 @@ export default {
     city: '城市',
     avatar: '头像',
     content: '内容',
-    publishStatus: '发布状态'
+    publishStatus: '发布状态',
+    name: '名称'
   },
   errorLog: {
     tips: '请点击右上角bug小图标',

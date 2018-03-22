@@ -150,7 +150,7 @@
 </template>
 
 <script>
-import { fetchList, fetchPv, createArticle, updateArticle } from '@/api/userList'
+import { fetchList, fetchPv, createArticle, updateArticle } from '@/api/user'
 import waves from '@/directive/waves' // 水波纹指令
 import { parseTime } from '@/utils'
 
