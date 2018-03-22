@@ -103,7 +103,7 @@
           <el-input v-model="temp.authorName"></el-input>
         </el-form-item>
         <el-form-item :label="$t('table.content')">
-          <el-input type="textarea" :autosize="{ minRows: 2, maxRows: 6}" placeholder="Please input" v-model="temp.content">
+          <el-input type="textarea" :autosize="{ minRows: 2, maxRows: 10}" placeholder="Please input" v-model="temp.content">
           </el-input>
         </el-form-item>
         <el-form-item :label="$t('table.publishStatus')">

@@ -49,7 +49,7 @@ export default {
     i18n: '国际化',
     poemManagement: '诗管理',
     poemList: '诗列表',
-    poemList1: '诗列表1',
+    poemList1: '诗集列表',
     userManagement: '用户管理',
     userList: '用户列表',
     userList1: '用户列表1'
@@ -113,7 +113,7 @@ export default {
     delete: '删除',
     cancel: '取 消',
     confirm: '确 定',
-    collection: '采集',
+    collection: '诗集',
     comments_num: '评论数',
     in_unique_code: '印象号',
     userName: '用户名',
