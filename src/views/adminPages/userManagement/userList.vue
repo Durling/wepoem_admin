@@ -31,7 +31,8 @@
       </el-table-column>
       <el-table-column width="" align="center" :label="$t('table.userName')">
         <template slot-scope="scope">
-          <span>{{scope.row.userName}}</span>
+          <span>{{scope.row.userName}}</span><br>
+          <el-tag size="mini" v-if="scope.row.sex>=1">{{sex_name[scope.row.sex||0]}}</el-tag>
         </template>
       </el-table-column>
       <el-table-column width="" align="" :label="$t('table.avatar')">
@@ -39,21 +40,16 @@
           <img :src="origin+scope.row.avatar" alt="" style="height: 60px;">
         </template>
       </el-table-column>
-      <el-table-column width="" align="center" :label="$t('table.email')">
+      <el-table-column width="150" align="center" :label="$t('table.email')">
         <template slot-scope="scope">
-          <span>{{scope.row.email}}</span>
+          <span>{{scope.row.email}}</span><br>
           <el-tag size="mini">{{email_status_name[scope.row.email_status||0]}}</el-tag>
         </template>
       </el-table-column>
-      <el-table-column width="" align="center" :label="$t('table.phone')">
+      <el-table-column width="120" align="center" :label="$t('table.phone')">
         <template slot-scope="scope">
-          <span>{{scope.row.phone}}</span>
+          <span>{{scope.row.phone}}</span><br>
           <el-tag size="mini">{{phone_status_name[scope.row.phone_status||0]}}</el-tag>
-        </template>
-      </el-table-column>
-      <el-table-column width="" align="center" :label="$t('table.sex')">
-        <template slot-scope="scope">
-          <span>{{sex_name[scope.row.sex||0]}}</span>
         </template>
       </el-table-column>
       <!-- <el-table-column width="110px" v-if='showReviewer' align="center" :label="$t('table.reviewer')">
