@@ -52,7 +52,9 @@ export default {
     collectionList: '诗集列表',
     userManagement: '用户管理',
     userList: '用户列表',
-    userList1: '用户列表1'
+    userList1: '用户列表1',
+    resourceManagement: '资源管理',
+    qnImgList: '图片库'
   },
   navbar: {
     logOut: '退出登录',
@@ -125,7 +127,11 @@ export default {
     avatar: '头像',
     content: '内容',
     publishStatus: '发布状态',
-    name: '名称'
+    name: '名称',
+    img: '图片',
+    fsize: '文件大小',
+    mimeType: '文件类型',
+    link: '链接'
   },
   errorLog: {
     tips: '请点击右上角bug小图标',

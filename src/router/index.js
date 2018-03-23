@@ -146,6 +146,20 @@ export const asyncRouterMap = [
     ]
   },
 
+  {
+    path: '/resourceManagement',
+    component: Layout,
+    redirect: 'noredirect',
+    name: 'resourceManagement',
+    meta: {
+      title: 'resourceManagement',
+      icon: 'component'
+    },
+    children: [
+      { path: 'qnImgList', component: _import('adminPages/resourceManagement/qnImgList'), name: 'qnImgList', meta: { title: 'qnImgList' }},
+      { path: 'collectionList', component: _import('adminPages/resourceManagement/collectionList'), name: 'collectionList', meta: { title: 'collectionList' }}
+    ]
+  },
   // {
   //   path: '/charts',
   //   component: Layout,
